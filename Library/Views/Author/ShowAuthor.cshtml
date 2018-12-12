@@ -1,0 +1,27 @@
+@using Library.Models;
+@{
+  Layout = "_Layout";
+}
+
+<h2>Author Page for @Model["author"].GetName()</h2>
+
+<hr>
+
+@if(@Model["books"].Count == 0)
+{
+  <h3>There are no books for @Model["author"].GetName() in the library database.</h3>
+}
+
+else
+{
+  <ul>
+    @foreach(Book book in @Model["books"])
+    {
+      <li><a href="/books/@book.GetId()/show">@book.GetName()</a></li>
+    }
+  </ul>  
+}
+
+<hr>
+<h4>Click <a href='/books/@Model["author"].GetId()/new'> here </a> to add new Book</h4>
+<h4><a href="/">Back home</a></h4>
