@@ -1,0 +1,19 @@
+@using Library.Models;
+@{
+  Layout = "_Layout";
+}
+
+<div class="controller text=center">
+ <h1>@Model["patron"].GetName()</h1>
+ <hr>
+<h3>Current titles checked out</h3>
+<ul>
+@foreach(var book in @Model["books"])
+{
+  <li><a href='/books/@book.GetId()/show'>@book.GetName()</a> - <a href="/patron/show/@Model["patron"].GetId()/return/@book.GetId()"> click to Return this book</a></li>
+}
+</ul> 
+
+
+<h3><a href ="/books">All books</a></h3>
+ <h3><a href="/">Home</h3>

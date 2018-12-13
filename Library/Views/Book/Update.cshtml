@@ -1,0 +1,33 @@
+@using Library.Models;
+@{
+  Layout = "_Layout";
+}
+
+<h2>Update book @Model["book"].GetName() by <strong>@Model["author"].GetName()</strong>.</h2>
+<hr>
+
+<form action='/books/@Model["book"].GetId()/show' method="post">
+  <div class = "form-group row">
+      <div class="col col-md-3">
+        <label for="bookName">Title: </label>
+        <input class="form-control" id="bookName" name="bookName" type="text" required value='@Model["book"].GetName()'>
+      </div>
+      <div class="col col-md-3">
+        <label for="year">Year: </label>
+        <input class="form-control" id="year" name="year" type="number" required value='@Model["book"].GetYear()'>
+      </div>
+      <div class="col col-md-3">
+        <label for="count">Number of Copies: </label>
+        <input class="form-control" id="count" name="count" type="number" required value='@Model["copy"].GetCount()'>
+      </div>
+      <div class="col col-md-3">
+        <label for="available">Available Copies: </label>
+        <input class="form-control" id="available" name="available" type="number" required value='@Model["copy"].GetAvailable()'>
+      </div>
+  </div>
+  <div class = "form-group row">
+    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+  </div>
+</form>
+
+<h4><a href="/">Back home</a></h4>

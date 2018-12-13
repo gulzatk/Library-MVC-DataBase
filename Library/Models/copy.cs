@@ -107,7 +107,7 @@ namespace Library.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE copies SET count = @newCOunt, available = @newAvailable WHERE book_id = @bookId;";
+            cmd.CommandText = @"UPDATE copies SET count = @newCount, available = @newAvailable WHERE book_id = @bookId;";
             cmd.Parameters.AddWithValue("@bookId", bookId);
             cmd.Parameters.AddWithValue("@newAvailable", newAvailable);
             cmd.Parameters.AddWithValue("@newCount", newCount);
@@ -115,6 +115,39 @@ namespace Library.Models
             _book_id = bookId;
             _count = newCount;
             _available = newAvailable;
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+        public void Chekout()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE copies SET available = @newAvailable WHERE book_id = @bookId;";
+            cmd.Parameters.AddWithValue("@newAvailable", this._available-1);
+            cmd.Parameters.AddWithValue("@bookId", this._book_id);
+            cmd.ExecuteNonQuery();
+            _available = _available-1;
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+        public void ReturnBook()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE copies SET available = @newAvailable WHERE book_id = @bookId;";
+            cmd.Parameters.AddWithValue("@newAvailable", this._available+1);
+            cmd.Parameters.AddWithValue("@bookId", this._book_id);
+            cmd.ExecuteNonQuery();
+            _available = _available+1;
             conn.Close();
             if (conn != null)
             {

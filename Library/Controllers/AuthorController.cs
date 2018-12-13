@@ -19,7 +19,7 @@ namespace Library.Controllers
             return View();
         }
 
-        [HttpPost("authors")]
+        [HttpPost("/authors")]
         public ActionResult Show(string authorName)
         {
             Author newAuthor = new Author(authorName);

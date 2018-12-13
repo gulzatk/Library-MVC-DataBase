@@ -137,6 +137,26 @@ namespace Library.Models
             return newBook;
         }
 
+        public void Edit(string name, int year, int bookId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE books SET name = @newName, year = @newYear WHERE id = @bookId;";
+            cmd.Parameters.AddWithValue("@newYear", year);
+            cmd.Parameters.AddWithValue("@newName", name);
+            cmd.Parameters.AddWithValue("@bookId", bookId);
+            cmd.ExecuteNonQuery();
+            _name = name;
+            _year = year;
+            _id = bookId;
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
         public static void ClearAll()
         {
             MySqlConnection conn = DB.Connection();
