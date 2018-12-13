@@ -28,8 +28,7 @@ namespace Library.Controllers
             Book newBook = Book.FindById(bookId);
             int authorId = newBook.GetAuthorId();
             Author newAuthor = Author.FindById(authorId);
-            Copy newCopy = new Copy(bookId, 0, 0);
-            newCopy.Save();
+            Copy newCopy = Copy.FindByBookId(bookId);
             model.Add("book", newBook);
             model.Add("author", newAuthor);
             model.Add("copy", newCopy);
@@ -40,9 +39,9 @@ namespace Library.Controllers
         [HttpPost("/books/{bookId}/show")]
         public ActionResult UpdateBook(int count, int bookId)
         {
-            Copy newCopy = new Copy(bookId, count, count);
-            newCopy.Save();
             Dictionary<string, object> modelUpdate = new Dictionary<string, object>{};
+            Copy newCopy = Copy.FindByBookId(bookId);
+            newCopy.Edit(bookId, count, count);
             Book newBook = Book.FindById(bookId);
             int authorId = newBook.GetAuthorId();
             Author newAuthor = Author.FindById(authorId);

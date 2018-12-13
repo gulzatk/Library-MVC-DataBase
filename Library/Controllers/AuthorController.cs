@@ -43,8 +43,10 @@ namespace Library.Controllers
         public ActionResult CreateBook(int authorId, string bookName, int year)
         {
             Book newBook = new Book(bookName, authorId, year);
-            
             newBook.Save();
+            int bookId = newBook.GetId();
+            Copy newCopy = new Copy(bookId, 1, 1);
+            newCopy.Save();
 
             return RedirectToAction("ShowAuthor", authorId);
         }

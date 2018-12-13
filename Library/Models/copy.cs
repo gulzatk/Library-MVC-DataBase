@@ -107,7 +107,7 @@ namespace Library.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE copies SET (count, available) VALUES (@newCount, @newAvailable) WHERE book_id = @bookId;";
+            cmd.CommandText = @"UPDATE copies SET count = @newCOunt, available = @newAvailable WHERE book_id = @bookId;";
             cmd.Parameters.AddWithValue("@bookId", bookId);
             cmd.Parameters.AddWithValue("@newAvailable", newAvailable);
             cmd.Parameters.AddWithValue("@newCount", newCount);
@@ -120,6 +120,32 @@ namespace Library.Models
             {
                 conn.Dispose();
             }
+        }
+
+        public static Copy FindByBookId(int bookId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM copies WHERE book_id = @bookId;";
+            cmd.Parameters.AddWithValue("@bookId", bookId);
+           MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            int id = 0;
+            int count = 0;
+            int available = 0;
+            while(rdr.Read())
+            {
+                id = rdr.GetInt32(0);
+                count = rdr.GetInt32(2);
+                available = rdr.GetInt32(3);
+            }
+            Copy newCopy = new Copy(bookId, count, available, id);
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return newCopy;
         }
 
         public override bool Equals(System.Object otherCopy)
